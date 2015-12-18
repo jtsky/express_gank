@@ -5,7 +5,7 @@ let urlEncode = require('urlencode');
 let router = express.Router();
 /* GET home page. */
 router.get('/', function (req, res) {
-    request(`http://gank.avosapps.com/api/data/${urlEncode('福利')}/30/1`, (error, apiResponse, body)=> {
+    request(`http://gank.avosapps.com/api/data/${urlEncode('福利')}/50/1`, (error, apiResponse, body)=> {
         if (!error && apiResponse.statusCode == 200) {
             res.send(body);
         }

@@ -55,86 +55,138 @@
 	/**
 	 * Created by Administrator on 2015/12/14.
 	 */
-	'use strict'
-	__webpack_require__(2)
-	var React = __webpack_require__(6);
-	var ReactDOM = __webpack_require__(163);
+	'use strict';
 
-	/*var Bootstrap = require('react-bootstrap');
-	 var { Button } = Bootstrap;*/
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+	var _Gallery = __webpack_require__(2);
 
-	var Gallery = React.createClass({displayName: "Gallery",
-	    //初始化状态 属于控件生命周期
-	    getInitialState: function () {
-	        return {
-	            data: {},
-	        };
-	    },
-	    //在初始化渲染执行之后立刻调用一次  属于控件生命周期
-	    componentDidMount: function () {
-	        this.loadDateFromAPI();
-	    },
+	var _Gallery2 = _interopRequireDefault(_Gallery);
 
-	    //初始化数据
-	    loadDateFromAPI: function () {
-	        $.get(this.props.url, function (data) {
-	            this.setState({data: data});
-	        }.bind(this), 'json');
-	    },
+	var _react = __webpack_require__(6);
 
-	    render: function () {
+	var _react2 = _interopRequireDefault(_react);
 
-	        /*var childElements = [];
-	         for (var index in this.state.data.results) {
-	         var element = this.state.data.results[index];
-	         childElements.push(
-	         <div className="grid-item">
-	         <img src={element.url}/>
-	         </div>
-	         )
-	         }*/
+	var _reactDom = __webpack_require__(163);
 
-	        return (
-	            React.createElement("div", {className: "box"}, 
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	                    React.createElement("div", {className: "child1"}, 
-	                        React.createElement("div", {className: "child1-child"}, "1-1"), 
-	                        React.createElement("div", {className: "child1-child"}, "1-2"), 
-	                        React.createElement("div", {className: "child1-child"}, "1-3"), 
-	                        React.createElement("div", {className: "child1-child"}, "1-4"), 
-	                        React.createElement("div", {className: "child1-child"}, "1-5")
-	                    ), 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	                    React.createElement("div", {className: "child"}, "2"), 
-	                    React.createElement("div", {className: "child"}, "3"), 
-	                    React.createElement("div", {className: "child"}, "4"), 
-	                    React.createElement("div", {className: "child"}, "5")
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	            )
-	            /*<Masonry
-	             className={''} // default ''
-	             elementType={'div'} // default 'div'
-	             options={masonryOptions} // default {}
-	             disableImagesLoaded={true} // default false
-	             >
-	             {childElements}
-	             </Masonry>*/
-	        );
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Column = (function (_React$Component) {
+	    _inherits(Column, _React$Component);
+
+	    function Column() {
+	        _classCallCheck(this, Column);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Column).apply(this, arguments));
 	    }
 
-	});
+	    _createClass(Column, [{
+	        key: 'handleClick',
+	        value: function handleClick(event) {
+	            console.log(event.target.currentSrc);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var elemets = [];
+	            for (var index in this.props.element) {
+	                var element = this.props.element[index];
+	                elemets.push(_react2.default.createElement('image', {
+	                    className: 'column-img',
+	                    src: element.url,
+	                    key: element.objectId,
+	                    onClick: this.handleClick
+	                }));
+	            }
+
+	            var className = 'column-';
+	            className += this.props.column;
+	            return _react2.default.createElement(
+	                'div',
+	                { className: className },
+	                elemets
+	            );
+	        }
+	    }]);
+
+	    return Column;
+	})(_react2.default.Component);
+
+	var Gallery = (function (_React$Component2) {
+	    _inherits(Gallery, _React$Component2);
+
+	    function Gallery() {
+	        _classCallCheck(this, Gallery);
+
+	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Gallery).call(this));
+
+	        _this2.state = {
+	            columns: []
+	        };
+
+	        return _this2;
+	    }
+
+	    _createClass(Gallery, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            if (this.props.column < 5 || this.props.column > 8) {
+	                alert('5<=column<=8');
+	                throw RangeException('5<=column<=8');
+	            }
+	            this.loadDateFromAPI(this.props.column);
+	        }
+	    }, {
+	        key: 'loadDateFromAPI',
+	        value: function loadDateFromAPI(column) {
+	            $.get(this.props.url, (function (data) {
+	                function mix(column, index) {
+	                    if (columns[column]) {
+	                        columns[column].push(array[index]);
+	                    } else {
+	                        var _column = [];
+	                        _column.push(array[index]);
+	                        columns.push(_column);
+	                    }
+	                }
+
+	                var array = data.results;
+	                var columns = [];
+	                for (var index in array) {
+	                    mix(index % column, index);
+	                }
+	                this.setState({ columns: columns });
+	            }).bind(this), 'json');
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var elements = [];
+	            for (var index in this.state.columns) {
+	                var element = this.state.columns[index];
+	                elements.push(_react2.default.createElement(Column, { element: element, column: this.props.column, key: index }));
+	            }
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'box' },
+	                elements
+	            );
+	        }
+	    }]);
+
+	    return Gallery;
+	})(_react2.default.Component);
 
 	module.exports = Gallery;
-	ReactDOM.render(
-	    React.createElement(Gallery, {url: "/api"}),
-	    $('#container')[0]
-	    //document.getElementById('container')
-	);
-
-
-
+	_reactDom2.default.render(_react2.default.createElement(Gallery, { url: '/api', column: '5' }), $('.container')[0]);
 
 /***/ },
 /* 2 */
@@ -152,8 +204,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/sass-loader/index.js?sourceMap!./flex_grid.scss", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/sass-loader/index.js?sourceMap!./flex_grid.scss");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/sass-loader/index.js?sourceMap!./Gallery.scss", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/sass-loader/index.js?sourceMap!./Gallery.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -171,7 +223,7 @@
 
 
 	// module
-	exports.push([module.id, ".flex-container, .box {\n  display: -moz-box;\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flex;\n  width: 100%;\n  height: 100%;\n  background-color: gray; }\n\n.flex-inline-container, .box .child, .box .child1, .box .child1 .child1-child {\n  display: -moz-inline-box;\n  /* Firefox */\n  display: -ms-inline-flexbox;\n  /* IE10 */\n  display: -webkit-inline-flex;\n  /* Chrome, WebKit */\n  display: inline-flex;\n  width: 100%;\n  height: 100%;\n  background-color: gray; }\n\n.box {\n  width: 100%;\n  height: 600px;\n  background: red;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  -ms-flex-direction: row;\n  -ms-justify-content: space-between;\n  -ms-align-items: center; }\n  .box .child-common, .box .child, .box .child1 {\n    width: 10%;\n    height: 400px;\n    background: green;\n    font-size: 12px; }\n  .box .child {\n    align-items: center;\n    justify-content: center;\n    -ms-align-items: center;\n    -ms-justify-content: center; }\n  .box .child1 {\n    background: darkgray;\n    flex-direction: row;\n    align-items: center;\n    -ms-flex-direction: row;\n    -ms-align-items: center; }\n    .box .child1 .child1-child {\n      width: 20%;\n      height: 50px;\n      background: #e9ff2d;\n      justify-content: center;\n      align-items: center;\n      -ms-justify-content: center;\n      -ms-align-items: center; }\n", ""]);
+	exports.push([module.id, ".flex-container, .box {\n  display: -moz-box;\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flex;\n  width: 100%;\n  height: 100%; }\n\n.flex-inline-container, .box .column-common, .box .column-5, .box .column-6, .box .column-7, .box .column-8 {\n  display: -moz-inline-box;\n  /* Firefox */\n  display: -ms-inline-flexbox;\n  /* IE10 */\n  display: -webkit-inline-flex;\n  /* Chrome, WebKit */\n  display: inline-flex;\n  width: 100%;\n  height: 100%; }\n\n.box {\n  width: 100%;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n  .box .column-common, .box .column-5, .box .column-6, .box .column-7, .box .column-8 {\n    width: 20%;\n    flex-direction: column; }\n  .box .column-5 {\n    width: 20%;\n    flex-direction: column; }\n  .box .column-6 {\n    width: 16.6%;\n    flex-direction: column; }\n  .box .column-7 {\n    width: 14.2%;\n    flex-direction: column; }\n  .box .column-8 {\n    width: 12.5%;\n    flex-direction: column; }\n  .box .column-img {\n    width: 100%; }\n", ""]);
 
 	// exports
 

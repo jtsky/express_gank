@@ -10,7 +10,8 @@ module.exports = {
     //plugins: [commonsPlugin],
     //页面入口文件配置
     entry: {
-        main: ['./javascripts/component/jsx/Gallery.js', './stylesheets/scss/flex_grid.scss'],
+        //flex: ['./javascripts/component/jsx/Flexbox.jsx', './stylesheets/scss/Flexbox.scss'],
+        gallery: ['./javascripts/component/jsx/Gallery.jsx', './stylesheets/scss/Gallery.scss'],
     }
     ,
     //入口文件输出配置
@@ -21,7 +22,25 @@ module.exports = {
     module: {
         //加载器配置
         loaders: [
-            {test: /\.js$/, loader: 'jsx?harmony'},
+            //.js es6语法
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel',
+                query: {
+                    presets: ['react','es2015']
+                }
+            },
+            //.jsx es6语法
+            {
+                test: /\.jsx$/,
+                exclude: /(node_modules|bower_components)/,
+                //loader: 'babel!jsx?harmony',
+                loader: 'babel',
+                query: {
+                    presets: ['react','es2015']
+                }
+            },
             //.css 文件使用 style-loader 和 css-loader 来处理
             {test: /\.css$/, loader: 'style!css'},
             //.scss 文件使用 style-loader、css-loader 和 sass-loader 来编译处理
@@ -31,7 +50,7 @@ module.exports = {
     //其它解决方案配置
     resolve: {
         //root: 'E:/NodeProject/express_gank/public', //绝对路径
-        extensions: ['', '.js', '.json', '.scss'],
+        extensions: ['', '.js', '.jsx', '.json', '.scss'],
         /*alias: {
          AppStore: 'js/stores/AppStores.js',
          ActionType: 'js/actions/ActionType.js',
