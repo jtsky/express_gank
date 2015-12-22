@@ -33,31 +33,26 @@ $percent_width: 20% !default;
     flex-direction: column;
   }
 
-  .column-5 {
-    @extend .column-common;
-    width: 20%;
-    flex-direction: column;
-  }
-
-  .column-6 {
-    @extend .column-common;
-    width: 16.6%;
-    flex-direction: column;
-  }
-
-  .column-7 {
-    @extend .column-common;
-    width: 14.2%;
-    flex-direction: column;
-  }
-  .column-8 {
-    @extend .column-common;
-    width: 12.5%;
-    flex-direction: column;
+  $column-list :4 5 6 7 8 9 10;
+  @each $column in $column-list{
+    .column-#{$column} {
+      @extend .column-common;
+      width: 100 / $column * 1%;
+      flex-direction: column;
+    }
   }
 
   .column-img {
     width: 100%;
+  }
+
+  .modal{
+    @extend .flex-inline-container;
+    justify-content: center;
+    align-items: center;
+    .img{
+      width: 100%;
+    }
   }
 
 }

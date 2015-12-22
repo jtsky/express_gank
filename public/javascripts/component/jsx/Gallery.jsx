@@ -2,24 +2,30 @@
  * Created by Administrator on 2015/12/14.
  */
 'use strict'
-import Flexbox from '../../../stylesheets/scss/Gallery'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import Flexbox from '../../../stylesheets/scss/Gallery';
+import React  from 'react';
+import ReactDom from 'react-dom';
+import WaveModal from 'react-boron/WaveModal';
+
+
 class Column extends React.Component {
-    handleClick(event) {
-        console.log(event.target.currentSrc);
+    showModal(url) {
+        this.props.action(url);
     }
 
     render() {
         let elemets = [];
         for (let index in this.props.element) {
             let element = this.props.element[index];
-            elemets.push(<image
-                className="column-img"
-                src={element.url}
-                key={element.objectId}
-                onClick={this.handleClick}
-            />);
+            elemets.push(
+                <img
+                    className="column-img"
+                    src={element.url}
+                    key={element.objectId}
+                    onClick={this.showModal.bind(this,element.url)}
+                />
+            );
+
         }
 
         let className = 'column-';
@@ -32,20 +38,20 @@ class Column extends React.Component {
     }
 }
 
+export class Gallery extends React.Component {
 
-class Gallery extends React.Component {
     constructor() {
         super();
         this.state = {
-            columns: []
+            elements: [],
+            src: ""
         };
-
     }
 
     componentDidMount() {
-        if(this.props.column < 5 || this.props.column > 8){
-            alert('5<=column<=8');
-            throw RangeException('5<=column<=8');
+        if (this.props.column < 4 || this.props.column > 10) {
+            alert('4 <= column <= 10');
+            throw RangeException('4 <= column <= 10');
         }
         this.loadDateFromAPI(this.props.column);
     }
@@ -67,28 +73,42 @@ class Gallery extends React.Component {
             for (let index in array) {
                 mix(index % column, index);
             }
-            this.setState({columns: columns});
+            this.setState({elements: columns});
         }.bind(this), 'json');
 
     }
 
-
     render() {
         let elements = [];
-        for (let index in this.state.columns) {
-            let element = this.state.columns[index];
-            elements.push(<Column element={element} column={this.props.column} key={index}/>);
+        for (let index in this.state.elements) {
+            let element = this.state.elements[index];
+            elements.push(<Column element={element}
+                                  action={this.showModal.bind(this)}
+                                  column={this.props.column}
+                                  key={index}
+
+            />);
         }
         return (
             <div className='box'>
+                <WaveModal ref='modal' className='modal'>
+                    <img src={this.state.src} className='img' />
+                </WaveModal>
                 {elements}
             </div>
         );
     }
+
+    showModal(url) {
+        this.setState({src: url});
+        this.refs.modal.show();
+    }
+
+
 }
 
-module.exports = Gallery;
-ReactDOM.render(
+
+ReactDom.render(
     <Gallery url="/api" column="5"/>,
     $('.container')[0]
 );
