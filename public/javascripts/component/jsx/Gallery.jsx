@@ -3,12 +3,12 @@
  */
 'use strict'
 import Flexbox from '../../../stylesheets/scss/Gallery';
-import React  from 'react';
+import React , {Component} from 'react';
 import ReactDom from 'react-dom';
 import WaveModal from 'react-boron/WaveModal';
 
 
-class Column extends React.Component {
+class Column extends Component {
     showModal(url) {
         this.props.action(url);
     }
@@ -22,29 +22,26 @@ class Column extends React.Component {
                     className="column-img"
                     src={element.url}
                     key={element.objectId}
-                    onClick={this.showModal.bind(this,element.url)}
+                    onClick={()=>{this.showModal(element.url)}}
                 />
             );
-
         }
 
-        let className = 'column-';
-        className += this.props.column;
         return (
-            <div className={className}>
+            <div className={'column-' + this.props.column}>
                 {elemets}
             </div>
         );
     }
 }
 
-export class Gallery extends React.Component {
+export class Gallery extends Component {
 
     constructor() {
         super();
         this.state = {
             elements: [],
-            src: ""
+            src: null
         };
     }
 
@@ -86,13 +83,12 @@ export class Gallery extends React.Component {
                                   action={this.showModal.bind(this)}
                                   column={this.props.column}
                                   key={index}
-
             />);
         }
         return (
             <div className='box'>
                 <WaveModal ref='modal' className='modal'>
-                    <img src={this.state.src} className='img' />
+                    <img src={this.state.src} className='img'/>
                 </WaveModal>
                 {elements}
             </div>

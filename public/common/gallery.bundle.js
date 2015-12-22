@@ -48,8 +48,8 @@ webpackJsonp([0],{
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Column = (function (_React$Component) {
-	    _inherits(Column, _React$Component);
+	var Column = (function (_Component) {
+	    _inherits(Column, _Component);
 
 	    function Column() {
 	        _classCallCheck(this, Column);
@@ -65,43 +65,50 @@ webpackJsonp([0],{
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            var elemets = [];
-	            for (var index in this.props.element) {
-	                var element = this.props.element[index];
+
+	            var _loop = function _loop(index) {
+	                var element = _this2.props.element[index];
 	                elemets.push(_react2.default.createElement('img', {
 	                    className: 'column-img',
 	                    src: element.url,
 	                    key: element.objectId,
-	                    onClick: this.showModal.bind(this, element.url)
+	                    onClick: function onClick() {
+	                        _this2.showModal(element.url);
+	                    }
 	                }));
+	            };
+
+	            for (var index in this.props.element) {
+	                _loop(index);
 	            }
 
-	            var className = 'column-';
-	            className += this.props.column;
 	            return _react2.default.createElement(
 	                'div',
-	                { className: className },
+	                { className: 'column-' + this.props.column },
 	                elemets
 	            );
 	        }
 	    }]);
 
 	    return Column;
-	})(_react2.default.Component);
+	})(_react.Component);
 
-	var Gallery = exports.Gallery = (function (_React$Component2) {
-	    _inherits(Gallery, _React$Component2);
+	var Gallery = exports.Gallery = (function (_Component2) {
+	    _inherits(Gallery, _Component2);
 
 	    function Gallery() {
 	        _classCallCheck(this, Gallery);
 
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Gallery).call(this));
+	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(Gallery).call(this));
 
-	        _this2.state = {
+	        _this3.state = {
 	            elements: [],
-	            src: ""
+	            src: null
 	        };
-	        return _this2;
+	        return _this3;
 	    }
 
 	    _createClass(Gallery, [{
@@ -140,12 +147,11 @@ webpackJsonp([0],{
 	        value: function render() {
 	            var elements = [];
 	            for (var index in this.state.elements) {
-	                var element = this.state.elements[index];
-	                elements.push(_react2.default.createElement(Column, { element: element,
+	                var _element = this.state.elements[index];
+	                elements.push(_react2.default.createElement(Column, { element: _element,
 	                    action: this.showModal.bind(this),
 	                    column: this.props.column,
 	                    key: index
-
 	                }));
 	            }
 	            return _react2.default.createElement(
@@ -168,7 +174,7 @@ webpackJsonp([0],{
 	    }]);
 
 	    return Gallery;
-	})(_react2.default.Component);
+	})(_react.Component);
 
 	_reactDom2.default.render(_react2.default.createElement(Gallery, { url: '/api', column: '5' }), $('.container')[0]);
 
