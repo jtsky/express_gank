@@ -20808,7 +20808,9 @@ webpackJsonp([0,1],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function configureStore(initialState) {
+	function configureStore() {
+	  var initialState = arguments.length <= 0 || arguments[0] === undefined ? { showGallery: [], showBigImg: null } : arguments[0];
+
 	  var store = (0, _redux.createStore)(_index2.default, initialState);
 	  return store;
 	}
@@ -20878,11 +20880,6 @@ webpackJsonp([0,1],[
 	    }
 
 	    _createClass(Column, [{
-	        key: 'showModal',
-	        value: function showModal(url) {
-	            this.props.action(url);
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
@@ -20896,7 +20893,7 @@ webpackJsonp([0,1],[
 	                    src: element.url,
 	                    key: element.objectId,
 	                    onClick: function onClick() {
-	                        _this2.showModal(element.url);
+	                        _this2.props.showBigImg(element.url);
 	                    }
 	                }));
 	            };
@@ -20960,13 +20957,17 @@ webpackJsonp([0,1],[
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            console.log('this.props.elements===>', this.props);
+	            var _this4 = this;
+
+	            console.log('this.props===>', this.props);
 	            var elements = [];
 	            if (this.props.elements) {
 	                for (var index in this.props.elements) {
 	                    var _element = this.props.elements[index];
 	                    elements.push(_react2.default.createElement(Column, { element: _element,
-	                        action: this.showModal.bind(this),
+	                        showBigImg: function showBigImg(url) {
+	                            _this4.showModal(url);
+	                        },
 	                        column: this.props.column,
 	                        key: index
 	                    }));
@@ -20987,7 +20988,6 @@ webpackJsonp([0,1],[
 	        key: 'showModal',
 	        value: function showModal(url) {
 	            this.props.dispatch((0, _actions.showBigImg)(url));
-	            //this.setState({src: url});
 	            this.refs.modal.show();
 	        }
 	    }]);

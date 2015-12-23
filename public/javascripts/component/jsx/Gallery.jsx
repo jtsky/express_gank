@@ -9,10 +9,6 @@ import { connect } from 'react-redux';
 import {showGallery,showBigImg} from  '../../../redux/action/actions';
 
 class Column extends Component {
-    showModal(url) {
-        this.props.action(url);
-    }
-
     render() {
         let elemets = [];
         for (let index in this.props.element) {
@@ -22,7 +18,7 @@ class Column extends Component {
                     className="column-img"
                     src={element.url}
                     key={element.objectId}
-                    onClick={()=>{this.showModal(element.url)}}
+                    onClick={()=>{this.props.showBigImg(element.url)}}
                 />
             );
         }
@@ -36,6 +32,8 @@ class Column extends Component {
 }
 
 class Gallery extends Component {
+
+
     componentDidMount() {
         if (this.props.column < 4 || this.props.column > 10) {
             alert('4 <= column <= 10');
@@ -68,13 +66,13 @@ class Gallery extends Component {
     }
 
     render() {
-        console.log('this.props.elements===>', this.props);
+        console.log('this.props===>', this.props);
         let elements = [];
         if (this.props.elements) {
             for (let index in this.props.elements) {
                 let element = this.props.elements[index];
                 elements.push(<Column element={element}
-                                      action={this.showModal.bind(this)}
+                                      showBigImg={url=>{this.showModal(url)}}
                                       column={this.props.column}
                                       key={index}
                 />);
@@ -92,7 +90,6 @@ class Gallery extends Component {
 
     showModal(url) {
         this.props.dispatch(showBigImg(url));
-        //this.setState({src: url});
         this.refs.modal.show();
     }
 }
