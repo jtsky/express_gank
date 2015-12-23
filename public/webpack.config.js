@@ -11,8 +11,7 @@ module.exports = {
     //页面入口文件配置
     entry: {
         //flex: ['./javascripts/component/jsx/Flexbox.jsx', './stylesheets/scss/Flexbox.scss'],
-        gallery: ['./javascripts/component/jsx/Gallery.jsx', './stylesheets/scss/Gallery.scss'],
-        redux: ['./javascripts/component/jsx/redux.jsx'],
+        index: ['./javascripts/component/jsx/index.jsx', './stylesheets/scss/Gallery.scss'],
     }
     ,
     //入口文件输出配置

@@ -3,10 +3,10 @@
  */
 'use strict'
 import Flexbox from '../../../stylesheets/scss/Gallery';
-import React , {Component} from 'react';
-import ReactDom from 'react-dom';
+import React , {PropTypes,Component} from 'react';
 import WaveModal from 'react-boron/WaveModal';
-
+import { connect } from 'react-redux';
+import {showGallery,showBigImg} from  '../../../redux/action/actions';
 
 class Column extends Component {
     showModal(url) {
@@ -35,26 +35,18 @@ class Column extends Component {
     }
 }
 
-export class Gallery extends Component {
-
-    constructor() {
-        super();
-        this.state = {
-            elements: [],
-            src: null
-        };
-    }
-
+class Gallery extends Component {
     componentDidMount() {
         if (this.props.column < 4 || this.props.column > 10) {
             alert('4 <= column <= 10');
             throw RangeException('4 <= column <= 10');
         }
-        this.loadDateFromAPI(this.props.column);
+        this.loadDateFromAPI(this.props.apiUrl, this.props.column);
     }
 
-    loadDateFromAPI(column) {
-        $.get(this.props.url, function (data) {
+    loadDateFromAPI(url, column) {
+        $.get(url, function (data) {
+            //组合方法
             function mix(column, index) {
                 if (columns[column]) {
                     columns[column].push(array[index]);
@@ -70,25 +62,28 @@ export class Gallery extends Component {
             for (let index in array) {
                 mix(index % column, index);
             }
-            this.setState({elements: columns});
+            this.props.dispatch(showGallery(columns));
         }.bind(this), 'json');
 
     }
 
     render() {
+        console.log('this.props.elements===>', this.props);
         let elements = [];
-        for (let index in this.state.elements) {
-            let element = this.state.elements[index];
-            elements.push(<Column element={element}
-                                  action={this.showModal.bind(this)}
-                                  column={this.props.column}
-                                  key={index}
-            />);
+        if (this.props.elements) {
+            for (let index in this.props.elements) {
+                let element = this.props.elements[index];
+                elements.push(<Column element={element}
+                                      action={this.showModal.bind(this)}
+                                      column={this.props.column}
+                                      key={index}
+                />);
+            }
         }
         return (
             <div className='box'>
                 <WaveModal ref='modal' className='modal'>
-                    <img src={this.state.src} className='img'/>
+                    <img src={this.props.src} className='img'/>
                 </WaveModal>
                 {elements}
             </div>
@@ -96,17 +91,31 @@ export class Gallery extends Component {
     }
 
     showModal(url) {
-        this.setState({src: url});
+        this.props.dispatch(showBigImg(url));
+        //this.setState({src: url});
         this.refs.modal.show();
     }
-
-
 }
 
+Gallery.propTypes = {
+    column: PropTypes.string.isRequired,//必须字段
+    apiUrl: PropTypes.string.isRequired,//必须时段
+    elements: PropTypes.array,
+    src: PropTypes.string
+};
 
-ReactDom.render(
-    <Gallery url="/api" column="5"/>,
-    $('.container')[0]
-);
+
+/*
+ * 这里的state 为全局的state 即combineReducers合并以后的初始state 然后返回组件中需要的props
+ * 对应App.propTypes
+ * */
+function select(state) {
+    return {
+        elements: state.showGallery,
+        src: state.showBigImg
+    };
+}
+
+export default connect(select)(Gallery);
 
 
