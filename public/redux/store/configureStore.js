@@ -5,7 +5,7 @@
 import { createStore } from 'redux';
 import rootReducer from '../reducer/index';
 
-export default function configureStore(initialState = {showGallery: [], showBigImg: null}) {
+export default function configureStore(initialState) {
     let store = createStore(rootReducer, initialState);
     return store;
 }

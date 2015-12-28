@@ -5,10 +5,12 @@
 import { combineReducers } from 'redux';
 import showBigImg from './showBigImg';
 import showGallery from './showGallery';
+import isFinishLoad from './isFinishLoad';
 
 const rootReducer = combineReducers({
     showGallery,
-    showBigImg
+    showBigImg,
+    isFinishLoad
 });
 
 export default rootReducer;

@@ -4,3 +4,4 @@
 'use strict'
 export const SHOW_GALLERY = 'SHOW_GALLERY';
 export const SHOW_BIG_IMG = 'SHOW_BIG_IMG';
+export const IS_FINISHlOAD = 'IS_FINISHlOAD';

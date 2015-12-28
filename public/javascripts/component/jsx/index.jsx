@@ -9,7 +9,7 @@ import Gallery from './Gallery';
 const store = configureStore();
 render(
     <Provider store={store}>
-        <Gallery apiUrl='/api' column='5'/>
+        <Gallery apiUrl='/api?c=20&p=1' column={5}/>
     </Provider>,
     $('.container')[0]
 );
